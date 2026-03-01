@@ -7,29 +7,54 @@
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
+  <svg class="metaball-filter" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="goo-metaball">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="blur" />
+        <feColorMatrix in="blur" mode="matrix"
+          values="1 0 0 0 0
+                  0 1 0 0 0
+                  0 0 1 0 0
+                  0 0 0 22 -9" result="goo" />
+        <feBlend in="SourceGraphic" in2="goo" />
+      </filter>
+    </defs>
+  </svg>
+
+  <div class="liquid-bg" aria-hidden="true">
+    <div class="liquid-goo">
+      <span class="liquid-blob blob-a"></span>
+      <span class="liquid-blob blob-b"></span>
+      <span class="liquid-blob blob-c"></span>
+      <span class="liquid-blob blob-d"></span>
+      <span class="liquid-blob blob-e"></span>
+      <span class="liquid-blob blob-f"></span>
+      <span class="liquid-blob blob-g"></span>
+      <span class="liquid-blob blob-h"></span>
+      <span class="liquid-blob blob-i"></span>
+    </div>
+  </div>
   <main class="app">
 
     <!-- TOP -->
     <section id="view-top" class="view is-active" aria-label="トップ">
       <header class="header">
-        <h1 class="title">KEIEI NAVI</h1>
+        <h1 class="title">コースナビ</h1>
       </header>
 
-      <div class="card">
+      <div class="intro-block">
         <p class="lead">what’s this?</p>
-        <p class="desc">アプリの概要が入ります</p>
-        <p class="desc">アプリの概要が入ります</p>
-        <p class="desc">アプリの概要が入ります</p>
-        <p class="desc">アプリの概要が入ります</p>
+        <p class="desc">一人ひとりの興味や性格に合わせて最適なコースモデルを提案するアプリです。<br>あなたに合った科目選びをサポートします。</p>
       </div>
 
-      <div class="notice card">
-        <p>回答所要時間は、約３分です。</p>
+      <div class="notice">
+        <p>回答所要時間は、約１分です。</p>
         <p>なお、このアンケートでは、個人を特定するための情報収集はしておりません。</p>
         <p>匿名での回答となります。</p>
       </div>
 
       <div class="actions">
+        <p class="diagnosis-tag">＼ Let’s 診断 ／</p>
         <button id="btn-start" class="btn primary">Start</button>
       </div>
     </section>
@@ -51,7 +76,7 @@
       </header>
 
       <div class="content">
-        <h2 class="subtitle">Title</h2>
+        <h2 class="subtitle">コースナビ</h2>
         <div id="questions" class="questions"></div>
 
         <div class="actions bottom">
@@ -60,10 +85,32 @@
       </div>
     </section>
 
+    <!-- ローディング -->
+    <section id="view-loading" class="view" aria-label="診断中">
+      <div class="loading-wrap">
+        <p class="loading-caption">診断中</p>
+        <div class="loading-spinner" role="status" aria-live="polite" aria-label="結果を生成中です">
+          <span class="loading-cell" style="--i:0"></span>
+          <span class="loading-cell" style="--i:1"></span>
+          <span class="loading-cell" style="--i:2"></span>
+          <span class="loading-cell" style="--i:3"></span>
+          <span class="loading-cell" style="--i:4"></span>
+          <span class="loading-cell" style="--i:5"></span>
+          <span class="loading-cell" style="--i:6"></span>
+          <span class="loading-cell" style="--i:7"></span>
+          <span class="loading-cell" style="--i:8"></span>
+          <span class="loading-cell" style="--i:9"></span>
+          <span class="loading-cell" style="--i:10"></span>
+          <span class="loading-cell" style="--i:11"></span>
+        </div>
+        <p class="loading-text">あなた向けの診断結果を準備しています</p>
+      </div>
+    </section>
+
     <!-- 結果 -->
     <section id="view-result" class="view" aria-label="結果">
       <header class="header">
-        <h2 class="subtitle">Title</h2>
+        <h2 class="subtitle">コースナビ</h2>
       </header>
 
       <div class="content">
@@ -80,6 +127,17 @@
 
     <!-- ローディング/エラー -->
     <div id="toast" class="toast" hidden></div>
+
+    <!-- 確認モーダル -->
+    <div id="confirm-modal" class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-message" hidden>
+      <div class="confirm-panel">
+        <p id="confirm-message" class="confirm-message">確認メッセージ</p>
+        <div class="confirm-actions">
+          <button id="confirm-cancel" class="btn secondary" type="button">キャンセル</button>
+          <button id="confirm-ok" class="btn primary" type="button">進む</button>
+        </div>
+      </div>
+    </div>
 
   </main>
 
