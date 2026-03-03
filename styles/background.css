@@ -1,0 +1,216 @@
+/* Metaball Background */
+.metaball-filter{
+  position: absolute;
+}
+
+.liquid-bg{
+  position: fixed;
+  inset: -8%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -5;
+}
+
+.liquid-goo{
+  position: absolute;
+  inset: 0;
+  filter: url(#goo-metaball);
+}
+
+.liquid-bg::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, .08)),
+    radial-gradient(56rem 30rem at 50% 46%, rgba(255, 255, 255, .4), rgba(255, 255, 255, 0) 70%);
+}
+
+.liquid-blob{
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, var(--accent-yellow) 0%, #ff9800 48%, var(--accent) 100%);
+  opacity: .84;
+  transform-origin: center;
+  will-change: transform, border-radius;
+  animation: metaballMorph 8.2s ease-in-out infinite;
+}
+
+.blob-a{
+  width: min(40vw, 620px);
+  height: min(34vw, 500px);
+  left: -10%;
+  top: -10%;
+  animation:
+    metaballDriftA 20s ease-in-out infinite,
+    metaballMorph 8s ease-in-out infinite;
+}
+
+.blob-b{
+  width: min(38vw, 580px);
+  height: min(30vw, 450px);
+  left: 66%;
+  top: -8%;
+  animation:
+    metaballDriftB 22s ease-in-out infinite,
+    metaballMorph 9.2s ease-in-out infinite reverse;
+}
+
+.blob-c{
+  width: min(44vw, 680px);
+  height: min(36vw, 540px);
+  left: -10%;
+  top: 58%;
+  animation:
+    metaballDriftC 24s ease-in-out infinite,
+    metaballMorph 8.8s ease-in-out infinite;
+}
+
+.blob-d{
+  width: min(36vw, 560px);
+  height: min(32vw, 480px);
+  left: 72%;
+  top: 62%;
+  animation:
+    metaballDriftD 19s ease-in-out infinite,
+    metaballMorph 10s ease-in-out infinite reverse;
+}
+
+.blob-e{
+  width: min(16vw, 220px);
+  height: min(16vw, 220px);
+  left: 18%;
+  top: 18%;
+  animation:
+    metaballDriftE 14s ease-in-out infinite,
+    metaballMorph 7.4s ease-in-out infinite reverse;
+}
+
+.blob-f{
+  width: min(12vw, 170px);
+  height: min(12vw, 170px);
+  left: 76%;
+  top: 24%;
+  animation:
+    metaballDriftF 12s ease-in-out infinite,
+    metaballMorph 6.6s ease-in-out infinite;
+}
+
+.blob-g,
+.blob-h,
+.blob-i,
+.blob-j{
+  display: none;
+}
+
+.blob-g{
+  width: min(42vw, 620px);
+  height: min(32vw, 470px);
+  left: -12%;
+  top: 70%;
+  animation:
+    metaballDriftG 23s ease-in-out infinite,
+    metaballMorph 9.4s ease-in-out infinite;
+}
+
+.blob-h{
+  width: min(34vw, 520px);
+  height: min(26vw, 390px);
+  left: 34%;
+  top: 80%;
+  animation:
+    metaballDriftH 21s ease-in-out infinite,
+    metaballMorph 8.6s ease-in-out infinite reverse;
+}
+
+.blob-i{
+  width: min(38vw, 560px);
+  height: min(30vw, 440px);
+  left: 76%;
+  top: 74%;
+  animation:
+    metaballDriftI 19s ease-in-out infinite,
+    metaballMorph 9s ease-in-out infinite;
+}
+
+.blob-j{
+  width: min(30vw, 430px);
+  height: min(24vw, 340px);
+  left: 38%;
+  top: 50%;
+  animation:
+    metaballDriftJ 18s ease-in-out infinite,
+    metaballMorph 8.4s ease-in-out infinite reverse;
+}
+
+@keyframes metaballMorph{
+  0%{ border-radius: 48% 52% 58% 42% / 43% 39% 61% 57%; }
+  33%{ border-radius: 60% 40% 45% 55% / 54% 61% 39% 46%; }
+  66%{ border-radius: 42% 58% 53% 47% / 58% 44% 56% 42%; }
+  100%{ border-radius: 48% 52% 58% 42% / 43% 39% 61% 57%; }
+}
+
+@keyframes metaballDriftA{
+  0%,100%{ transform: translate3d(0, 0, 0) scale(1); }
+  50%{ transform: translate3d(18%, 16%, 0) scale(1.06); }
+}
+
+@keyframes metaballDriftB{
+  0%,100%{ transform: translate3d(0, 0, 0) scale(1); }
+  50%{ transform: translate3d(-22%, 12%, 0) scale(1.08); }
+}
+
+@keyframes metaballDriftC{
+  0%,100%{ transform: translate3d(0, 0, 0) scale(1); }
+  50%{ transform: translate3d(20%, -18%, 0) scale(1.07); }
+}
+
+@keyframes metaballDriftD{
+  0%,100%{ transform: translate3d(0, 0, 0) scale(1); }
+  50%{ transform: translate3d(-20%, -14%, 0) scale(1.08); }
+}
+
+@keyframes metaballDriftE{
+  0%,100%{ transform: translate3d(0, 0, 0) scale(1); }
+  50%{ transform: translate3d(16%, 18%, 0) scale(1.1); }
+}
+
+@keyframes metaballDriftF{
+  0%,100%{ transform: translate3d(0, 0, 0) scale(1); }
+  50%{ transform: translate3d(-14%, 12%, 0) scale(1.12); }
+}
+
+@keyframes metaballDriftG{
+  0%,100%{ transform: translate3d(0, 0, 0) scale(1); }
+  50%{ transform: translate3d(22%, -16%, 0) scale(1.08); }
+}
+
+@keyframes metaballDriftH{
+  0%,100%{ transform: translate3d(0, 0, 0) scale(1); }
+  50%{ transform: translate3d(-14%, -18%, 0) scale(1.06); }
+}
+
+@keyframes metaballDriftI{
+  0%,100%{ transform: translate3d(0, 0, 0) scale(1); }
+  50%{ transform: translate3d(-24%, -12%, 0) scale(1.09); }
+}
+
+@keyframes metaballDriftJ{
+  0%,100%{ transform: translate3d(0, 0, 0) scale(1); }
+  50%{ transform: translate3d(10%, -14%, 0) scale(1.06); }
+}
+
+body.is-analyzing .liquid-blob{
+  opacity: .9;
+}
+
+body.is-analyzing .blob-a{ animation-duration: 15s, 6.6s; }
+body.is-analyzing .blob-b{ animation-duration: 16s, 7s; }
+body.is-analyzing .blob-c{ animation-duration: 17s, 6.8s; }
+body.is-analyzing .blob-d{ animation-duration: 14s, 7.2s; }
+body.is-analyzing .blob-e{ animation-duration: 10s, 5.5s; }
+body.is-analyzing .blob-f{ animation-duration: 9s, 5.2s; }
+body.is-analyzing .blob-g{ animation-duration: 16s, 7s; }
+body.is-analyzing .blob-h{ animation-duration: 15s, 6.6s; }
+body.is-analyzing .blob-i{ animation-duration: 14s, 6.8s; }
+body.is-analyzing .blob-j{ animation-duration: 13s, 6.4s; }

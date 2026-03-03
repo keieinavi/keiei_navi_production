@@ -1,0 +1,128 @@
+.app{
+  position: relative;
+  width: min(calc(100% - 40px), var(--max));
+  margin: 0 auto;
+  padding: 24px 0 72px;
+}
+
+.header{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 8px 0 20px;
+}
+
+.header.sticky{
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  padding: 14px 0 12px;
+  margin-bottom: 18px;
+  border-bottom: none;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.title,
+.subtitle{
+  margin: 8px 0 10px;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: transparent;
+  background: linear-gradient(145deg, #ffbf82 0%, var(--accent) 58%, var(--accent-strong) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, .34), 0 12px 26px rgba(255, 112, 26, .24);
+  animation: titleBoost 2.4s ease-in-out infinite alternate;
+}
+
+.title{
+  font-size: clamp(40px, 7.2vw, 96px);
+}
+
+@keyframes titleBoost{
+  0%{ filter: saturate(1) brightness(1); }
+  100%{ filter: saturate(1.2) brightness(1.08); }
+}
+
+.subtitle{
+  margin: 4px 0 12px;
+  font-size: clamp(36px, 6.2vw, 80px);
+}
+
+.intro-block,
+.notice{
+  max-width: 100%;
+  margin: 0 0 14px;
+  padding: 2px 2px;
+}
+
+.lead{
+  margin: 0 0 12px;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: clamp(26px, 2.2vw, 38px);
+  letter-spacing: .01em;
+}
+
+.desc{
+  margin: 6px 0;
+  color: #2a2f38;
+  font-size: clamp(22px, 1.6vw, 30px);
+  line-height: 1.45;
+  font-weight: 500;
+  max-width: min(1040px, 94%);
+  margin-inline: auto;
+  text-wrap: pretty;
+  line-break: auto;
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+.notice p{
+  margin: 6px 0;
+  color: #2a2f38;
+  font-size: clamp(18px, 1.4vw, 24px);
+  line-height: 1.6;
+  max-width: min(1100px, 94%);
+  margin-inline: auto;
+  text-wrap: pretty;
+  line-break: auto;
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+.actions{
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.actions.bottom{
+  margin-top: 26px;
+}
+
+.diagnosis-tag{
+  display: inline-block;
+  align-self: center;
+  margin: 0;
+  color: var(--accent);
+  font-size: clamp(24px, 2vw, 34px);
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: .03em;
+  animation: diagnosisFloat 1.9s ease-in-out infinite;
+}
+
+@keyframes diagnosisFloat{
+  0%,100%{ transform: translateY(0) scale(1); }
+  50%{ transform: translateY(-5px) scale(1.03); }
+}

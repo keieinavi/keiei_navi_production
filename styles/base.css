@@ -1,0 +1,29 @@
+:root{
+  --bg: #e2e3e7;
+  --panel: #ffffff;
+  --fg: #1f2328;
+  --muted: #5e6672;
+  --line: #d6dae0;
+  --accent: #ff6500;
+  --accent-strong: #e85a00;
+  --accent-soft: #ffab4d;
+  --accent-yellow: #ffc600;
+  --shadow: 0 14px 34px rgba(15, 23, 42, .1);
+  --max: 1260px;
+}
+
+*{ box-sizing: border-box; }
+
+html,
+body{
+  height: 100%;
+}
+
+body{
+  margin: 0;
+  font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+  overflow-x: hidden;
+  text-align: center;
+}
