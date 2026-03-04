@@ -61,8 +61,23 @@
   padding: 16px 18px;
   background: var(--panel);
   box-shadow: var(--shadow);
-  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, opacity .2s ease, filter .2s ease;
   text-align: left;
+}
+
+.q-card.is-answered{
+  opacity: .74;
+  filter: saturate(.84);
+}
+
+.q-card.is-answered:hover{
+  opacity: .84;
+  filter: saturate(.92);
+}
+
+.q-card.is-answered.is-focused{
+  opacity: 1;
+  filter: none;
 }
 
 .q-card:hover{
@@ -221,7 +236,11 @@
   100%{ transform: translateY(-2px) scale(1); }
 }
 
-.q-error{
-  outline: 2px solid #ff5a5a;
+.q-card.is-missing-target{
+  outline: 4px solid #121722;
   outline-offset: 2px;
+  border-color: #202736;
+  box-shadow:
+    0 0 0 6px rgba(18, 23, 34, .2),
+    0 14px 30px rgba(18, 23, 34, .34);
 }

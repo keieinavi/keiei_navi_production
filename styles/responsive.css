@@ -4,6 +4,12 @@
   }
 }
 
+@media (min-width: 921px){
+  #view-top{
+    padding-top: clamp(48px, 8vh, 110px);
+  }
+}
+
 @media (max-width: 920px){
   .app{
     width: min(calc(100% - 24px), var(--max));
@@ -34,7 +40,7 @@
 
 @media (max-width: 560px){
   .title{
-    font-size: clamp(52px, 12vw, 74px);
+    font-size: clamp(56px, 12.8vw, 80px);
   }
 
   .app{
@@ -53,12 +59,12 @@
   }
 
   .lead{
-    font-size: 20px;
+    font-size: 23px;
     margin-bottom: 10px;
   }
 
   .desc{
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.78;
     max-width: min(94vw, 520px);
     text-wrap: pretty;
@@ -66,7 +72,7 @@
   }
 
   .notice p{
-    font-size: 15px;
+    font-size: 17px;
     line-height: 1.8;
     max-width: min(94vw, 520px);
     text-wrap: pretty;
@@ -74,7 +80,14 @@
   }
 
   .diagnosis-tag{
-    font-size: 18px;
+    font-size: clamp(24px, 7vw, 30px);
+    font-weight: 900;
+    letter-spacing: .03em;
+    -webkit-text-stroke: 1.6px rgba(255, 255, 255, .98);
+    paint-order: stroke fill;
+    text-shadow:
+      0 4px 12px rgba(255, 255, 255, .5),
+      0 0 2px rgba(255, 255, 255, .85);
     margin-bottom: 2px;
   }
 
@@ -216,6 +229,39 @@
     font-size: 12px;
     max-width: 190px;
     padding: 9px 10px;
+  }
+
+  .rank-top{
+    position: relative;
+  }
+
+  .rank-main,
+  .rank-action{
+    position: relative;
+    z-index: 5;
+  }
+
+  .rank-1 .badge{
+    position: relative;
+    z-index: 3;
+  }
+
+  .rank-1 .badge::before{
+    top: -18px;
+    right: -12px;
+  }
+
+  .rank-1 .badge::after{
+    left: -14px;
+    bottom: -12px;
+  }
+
+  .rank-card.rank-1::after{
+    top: 18px;
+    left: 8px;
+    width: 12px;
+    height: 12px;
+    z-index: 2;
   }
 
   .confirm-actions{

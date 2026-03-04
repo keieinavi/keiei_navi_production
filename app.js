@@ -463,14 +463,8 @@ const ConfirmComponent = {
 };
 
 const FlowConfirmComponent = {
-  ask(message) {
-    return ConfirmComponent.open(message, FLOW_CONFIRM_OPTIONS);
-  },
   askBack() {
-    return this.ask("保存されませんが戻りますか");
-  },
-  askResult() {
-    return this.ask("診断結果を確認しますか");
+    return ConfirmComponent.open("保存されませんが戻りますか", FLOW_CONFIRM_OPTIONS);
   },
 };
 
@@ -515,12 +509,7 @@ const ResultButtonComponent = {
     const button = DOM.buttons.toResult;
     if (!button) return;
 
-    if (StoreComponent.isLoading()) {
-      button.disabled = true;
-      return;
-    }
-
-    button.disabled = !StoreComponent.isAllAnswered();
+    button.disabled = StoreComponent.isLoading();
   },
 };
 
@@ -605,24 +594,75 @@ const QuestionComponent = {
     card.dataset.qid = String(question.question_id);
     card.innerHTML = TemplateComponent.buildQuestionCardHTML(question);
     this.bindOptionEvents(card, question.question_id);
+    this.restoreAnsweredState(card, question.question_id);
     return card;
+  },
+
+  restoreAnsweredState(card, questionId) {
+    const answer = StoreComponent.getAnswer(questionId);
+    if (answer == null) return;
+
+    const selected = card.querySelector(`input[name="q_${questionId}"][value="${answer}"]`);
+    if (!selected) return;
+
+    selected.checked = true;
+    this.reflectSelectedOption(card, selected.closest(".opt"));
+    card.classList.add("is-answered");
   },
 
   bindOptionEvents(card, questionId) {
     card.querySelectorAll(`input[name="q_${questionId}"]`).forEach((input) => {
       input.addEventListener("change", () => {
+        const isMissingFlowActive = Boolean(
+          DOM.sections.questions?.querySelector(".q-card.is-missing-target"),
+        );
         const selectedOpt = input.closest(".opt");
         this.reflectSelectedOption(card, selectedOpt);
 
         StoreComponent.setAnswer(questionId, NumberComponent.toInt(input.value));
-        card.classList.remove("q-error");
+        card.classList.remove("is-missing-target");
+        card.classList.add("is-answered");
 
         ProgressComponent.update();
         ResultButtonComponent.syncState();
         Animator.answerFeedback(card, selectedOpt);
-        this.scrollToNext(questionId);
+        this.navigateAfterAnswer(questionId, isMissingFlowActive);
       });
     });
+  },
+
+  navigateAfterAnswer(currentQuestionId, isMissingFlowActive) {
+    if (isMissingFlowActive) {
+      const nextMissingCard = this.findFirstMissingTargetCard();
+      if (nextMissingCard) {
+        this.focusCard(nextMissingCard, 600);
+        return;
+      }
+
+      DOM.buttons.toResult?.scrollIntoView({ behavior: "smooth", block: "center" });
+      Animator.resultButtonPulse(DOM.buttons.toResult);
+      return;
+    }
+
+    this.scrollToNext(currentQuestionId);
+  },
+
+  findFirstMissingTargetCard() {
+    return DOM.sections.questions?.querySelector(".q-card.is-missing-target") ?? null;
+  },
+
+  focusCard(card, durationMs = 500) {
+    DOM.sections.questions?.querySelectorAll(".q-card.is-focused").forEach((item) => {
+      item.classList.remove("is-focused");
+    });
+
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+    card.classList.add("is-focused");
+    clearTimeout(this.focusTimeoutId);
+    this.focusTimeoutId = setTimeout(() => {
+      card.classList.remove("is-focused");
+    }, durationMs);
+    Animator.focusNextQuestion(card);
   },
 
   reflectSelectedOption(card, selectedOpt) {
@@ -651,18 +691,7 @@ const QuestionComponent = {
     const nextCard = DOM.sections.questions?.querySelector(`.q-card[data-qid="${nextQuestion.question_id}"]`);
     if (!nextCard) return;
 
-    DOM.sections.questions?.querySelectorAll(".q-card.is-focused").forEach((card) => {
-      card.classList.remove("is-focused");
-    });
-
-    nextCard.scrollIntoView({ behavior: "smooth", block: "center" });
-    nextCard.classList.add("is-focused");
-    clearTimeout(this.focusTimeoutId);
-    this.focusTimeoutId = setTimeout(() => {
-      nextCard.classList.remove("is-focused");
-    }, 500);
-
-    Animator.focusNextQuestion(nextCard);
+    this.focusCard(nextCard, 500);
   },
 
   reset() {
@@ -673,7 +702,7 @@ const QuestionComponent = {
     });
 
     DOM.sections.questions?.querySelectorAll(".q-card").forEach((card) => {
-      card.classList.remove("q-error", "is-focused");
+      card.classList.remove("is-missing-target", "is-focused", "is-answered");
     });
 
     DOM.sections.questions?.querySelectorAll(".scale .opt").forEach((opt) => {
@@ -686,16 +715,27 @@ const QuestionComponent = {
   },
 
   focusFirstMissing() {
+    DOM.sections.questions?.querySelectorAll(".q-card.is-missing-target").forEach((card) => {
+      card.classList.remove("is-missing-target");
+    });
+    DOM.sections.questions?.querySelectorAll(".q-card.is-focused").forEach((card) => {
+      card.classList.remove("is-focused");
+    });
+
+    let firstMissingCard = null;
     for (const question of StoreComponent.getQuestions()) {
       if (StoreComponent.getAnswer(question.question_id) != null) continue;
 
       const card = DOM.sections.questions?.querySelector(`.q-card[data-qid="${question.question_id}"]`);
       if (card) {
-        card.classList.add("q-error");
-        card.scrollIntoView({ behavior: "smooth", block: "center" });
+        card.classList.add("is-missing-target");
+        if (!firstMissingCard) firstMissingCard = card;
       }
-      break;
     }
+
+    if (!firstMissingCard) return;
+
+    this.focusCard(firstMissingCard, 600);
   },
 };
 
@@ -819,9 +859,6 @@ const App = {
         ToastComponent.show("未回答があります");
         return;
       }
-
-      const isFinalAnswer = await FlowConfirmComponent.askResult();
-      if (!isFinalAnswer) return;
 
       const scores = ScoreComponent.compute();
       await LoadingComponent.showThenResult(scores);
