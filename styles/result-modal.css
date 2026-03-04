@@ -101,6 +101,8 @@
   font-weight: 900;
   font-size: clamp(38px, 2.6vw, 52px);
   line-height: 1.28;
+  padding-left: 1.1em;
+  text-indent: -1.1em;
   text-wrap: pretty;
   line-break: auto;
   word-break: keep-all;

@@ -83,6 +83,9 @@ const NumberComponent = {
     const n = Number(value);
     return Number.isFinite(n) ? n : 0;
   },
+  roundScore(value) {
+    return Math.round(value * 1e12) / 1e12;
+  },
 };
 
 const TextComponent = {
@@ -93,13 +96,6 @@ const TextComponent = {
       .replaceAll(">", "&gt;")
       .replaceAll('"', "&quot;")
       .replaceAll("'", "&#39;");
-  },
-
-  removeCircledNumbers(value) {
-    return String(value)
-      .replace(/[①-⑳㉑-㉟㊱-㊿⓪⓵-⓾❶-❿]/g, "")
-      .replace(/\s+/g, " ")
-      .trim();
   },
 
   toWordBreakHTML(value) {
@@ -568,14 +564,14 @@ const TemplateComponent = {
 
   buildRankCardHTML(row, rank) {
     const link = row.link_url || "https://example.com/";
-    const cleanName = TextComponent.removeCircledNumbers(row.course_model_name) || "（名称未設定）";
+    const courseName = row.course_model_name || "（名称未設定）";
 
     return `
       <div class="rank-card rank-${rank}">
         <div class="rank-top">
           <div class="badge" aria-label="${rank}位">${rank}</div>
           <div class="rank-main">
-            <div class="rank-name">${TextComponent.toWordBreakHTML(cleanName)}</div>
+            <div class="rank-name">${TextComponent.toWordBreakHTML(courseName)}</div>
           </div>
           <a class="rank-action" href="${TextComponent.escapeHTML(link)}" target="_blank" rel="noopener noreferrer">
             詳細※<wbr>別サイトに飛びます
@@ -715,6 +711,7 @@ const ScoreComponent = {
         const weight = StoreComponent.getWeight(model.course_model_id, question.question_id);
         score += answer * weight;
       });
+      score = NumberComponent.roundScore(score);
 
       return {
         course_model_id: model.course_model_id,
