@@ -43,6 +43,20 @@
     font-size: clamp(56px, 12.8vw, 80px);
   }
 
+  .title-top .title-small{
+    font-size: clamp(34px, 8.2vw, 52px);
+    letter-spacing: .07em;
+  }
+
+  .title-top .title-large{
+    font-size: clamp(34px, 9.8vw, 56px);
+    letter-spacing: .03em;
+    white-space: nowrap;
+    text-wrap: nowrap;
+    word-break: keep-all;
+    overflow-wrap: normal;
+  }
+
   .app{
     width: min(calc(100% - 20px), var(--max));
     padding: 18px 0 34px;
