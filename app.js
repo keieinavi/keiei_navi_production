@@ -552,7 +552,7 @@ const TemplateComponent = {
   },
 
   buildRankCardHTML(row, rank) {
-    const link = row.link_url || "https://example.com/";
+    const link = row.link_url || "https://www.kyoto-su.ac.jp/new_bu/#:~:text=%E5%AE%89%E5%BF%83%E3%81%AE,%E3%82%B3%E3%83%BC%E3%82%B9%E3%83%A2%E3%83%87%E3%83%AB";
     const courseName = row.course_model_name || "（名称未設定）";
 
     return `
